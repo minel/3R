@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var filePath = "../public/Rooms.xml";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,7 +13,7 @@ router.get('/roomlist', function(req, res) {
     xml2js = require('xml2js');
 	var parser = new xml2js.Parser();
 	
-	fs.readFile('C:/Node/exp/3r/public/Rooms.xml', function (err, data) {
+	fs.readFile(filePath, function (err, data) {
 		parser.parseString(data,function(err, result){
 			console.dir(result);
 			console.log('Done');
@@ -33,7 +34,7 @@ router.get('/room/:roomNo', function(req, res, next) {
     xml2js = require('xml2js');
 	var parser = new xml2js.Parser();
 	
-	fs.readFile('C:/Node/exp/3r/public/Rooms.xml', function (err, data) {
+	fs.readFile(filePath, function (err, data) {
 		//
 		parser.parseString(data,function(err, result){
 			var Rooms = result.Rooms.Room;
@@ -61,7 +62,7 @@ router.get('/rooms/:roomNo/:status', function(req, res, next){ //parametre olara
 	var prm_roomNo = req.params.roomNo; //parametreler
 	var prm_status = req.params.status; //parametreler
 	
-	fs.readFile('C:/Node/exp/3r/public/Rooms.xml', function (err, data) { //xml okuyoruz
+	fs.readFile(filePath, function (err, data) { //xml okuyoruz
 	
 		parser.parseString(data,function(err, result){ 		//parse edip result obejesine dönüştüyor.
 			 
@@ -84,7 +85,7 @@ router.get('/rooms/:roomNo/:status', function(req, res, next){ //parametre olara
 			
 			if(changed){ //eğer değişim olduysa kontrolü, sağlamcılıkla ilgili :)
 				var newXml = js2xmlparser("Rooms", result.Rooms);
-				fs.writeFile('C:/Node/exp/3r/public/Rooms.xml', newXml, function (err) {
+				fs.writeFile(filePath, newXml, function (err) {
 					if(err)
 						return console.log(err);
 					console.log('Dosya yazıldı');
